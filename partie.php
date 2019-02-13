@@ -1,4 +1,4 @@
-<?php 
+<?php
 function chargerClasse($classe) {
 	require 'class/' .$classe . '.class.php';
 }
@@ -25,7 +25,7 @@ $manager = new PersonnagesManager($bdd);
 if (isset($_GET['parler']) and !empty($_GET['parler'])) {
 	$_SESSION['$persoParler'] = 'test';
 	header('location: partie.php');
-	die(); 
+	die();
 }
 
 //utiliser personnage
@@ -38,7 +38,7 @@ if (isset($_GET['utiliser']) and !empty($_GET['utiliser'])) {
 	else {
 		$_SESSION['$erreurupload'] = '<div class="alert alert-success"><strong>Erreur !!!</strong> Votre personnage n a pas été trouver.</div><br/>';
 		header('location: partie.php');
-		die(); 
+		die();
 	}
 }
 
@@ -57,18 +57,18 @@ if (isset($_GET['frapper'])) {
    		else {
     		$persoAFrapper = $manager->getPerso((int) $_GET['frapper']);
       		$retour = $perso->frapper($persoAFrapper); // On stocke dans $retour les éventuelles erreurs ou messages que renvoie la méthode frapper.
-      
+
       		switch ($retour) {
         		case Personnage::CEST_MOI :
 	          		$_SESSION['$erreurupload'] = 'Mais... pourquoi voulez-vous vous frapper ???';
 	          		break;
-        
+
         		case Personnage::PERSONNAGE_FRAPPE :
 	          		$_SESSION['$erreurupload'] = 'Le personnage a bien été frappé !';
 	          		$manager->update($perso);
 	          		$manager->update($persoAFrapper);
 	          		break;
-        
+
         		case Personnage::PERSONNAGE_TUE :
           			$_SESSION['$erreurupload'] = 'Vous avez tué ce personnage !';
 					$manager->update($perso);
@@ -94,11 +94,11 @@ if (isset($_GET['frapper'])) {
 	<body>
 		<p>Nombre de personnages créés : <?= $manager->count() ?></p>
 		<?php
-		if(isset($_SESSION['$erreurupload']) and !empty($_SESSION['$erreurupload'])) { 
-	        echo $_SESSION['$erreurupload']; 
+		if(isset($_SESSION['$erreurupload']) and !empty($_SESSION['$erreurupload'])) {
+	        echo $_SESSION['$erreurupload'];
 	        //unset($_SESSION['$erreurupload']);
-	    } 
-		if (isset($perso)) { 
+	    }
+		if (isset($perso)) {
 		?>
 			<p><a href="?deconnexion=1">Déconnexion</a></p>
 			<p><a href="?parler=1">Dire phrase</a></p>
@@ -116,8 +116,8 @@ if (isset($_GET['frapper'])) {
 					</p>
 		    </fieldset>
 		    <center>
-		    <?php if(isset($_SESSION['$persoParler']) and !empty($_SESSION['$persoParler'])) { 
-		        Personnage::parler(); 
+		    <?php if(isset($_SESSION['$persoParler']) and !empty($_SESSION['$persoParler'])) {
+		        Personnage::parler();
 		        unset($_SESSION['$persoParler']);
 	    	} ?> </center>
 		    <fieldset>
@@ -132,7 +132,7 @@ if (isset($_GET['frapper'])) {
 
 					else {
 						foreach ($persos as $unPerso) {
-							echo '<a href="?frapper=', $unPerso->getId(), '">', htmlspecialchars($unPerso->getNom()), '</a> (dégâts : ', $unPerso->getDegats(), ' nb de coup recu : '.$unPerso->getNbCoupRecu().')<br />'; 
+							echo '<a href="?frapper=', $unPerso->getId(), '">', htmlspecialchars($unPerso->getNom()), '</a> (dégâts : ', $unPerso->getDegats(), ' nb de coup recu : '.$unPerso->getNbCoupRecu().')<br />';
 						}
 					}
 					?>
@@ -143,7 +143,7 @@ if (isset($_GET['frapper'])) {
 		else {
 			header('Location: index.php');
 			exit();
-	    } 
+	    }
 		?>
 	</body>
 </html>

@@ -1,9 +1,11 @@
-<?php 
+<?php
 function chargerClasse($classe) {
 	require 'class/' .$classe . '.class.php';
 }
+
 spl_autoload_register('chargerClasse');
 session_start();
+
 $bdd= new PDO('mysql:host=localhost;dbname=mortalcombat','root','');
 include ('function.php');
 setlocale(LC_TIME, 'FR');
@@ -15,7 +17,7 @@ if(isset($_GET['delete']) AND !empty($_GET['delete'])) {
 	$manager->delete($persoDelete);
 	$_SESSION['$erreurupload'] = '<div class="alert alert-success"><strong>Success !!!</strong> Votre personnage a bien été supprimé.</div><br/>';
 	header('location: index.php');
-	die();			
+	die();
 }
 
 //ajouter un personnage
@@ -36,7 +38,7 @@ if (isset($_POST['bAdd'])) {
 		$manager->add($persoAdd);
 		$_SESSION['$erreurupload'] = '<div class="alert alert-success"><strong>Success !!!</strong> Votre personnage '.htmlspecialchars($_POST['eNom']).' a bien été ajouté.</div><br/>';
 	  	header('location: index.php');
-	  	die();  
+	  	die();
 	}
 	else {
 		echo "error";
@@ -67,7 +69,7 @@ if (isset($_POST['bUpdate']) and isset($_GET['update'])) {
 		$manager->update($persoUpdate);
 		$_SESSION['$erreurupload'] = '<div class="alert alert-success"><strong>Success !!!</strong> Votre personnage '.htmlspecialchars($_POST['eNom']).' a bien été modifié.</div><br/>';
 	  	header('location: index.php');
-	  	die();  
+	  	die();
 	}
 	else {
 		echo "error";
@@ -92,7 +94,7 @@ if(isset($_SESSION['login_admin'])) {
 	$resultGetList .= "<th>Modifier</th>";
 }
 $resultGetList .= "<th>Utiliser</th>";
-foreach ($persosList as $unPerso) 
+foreach ($persosList as $unPerso)
 {
 	$resultGetList .= "<tr>";
 	$resultGetList .=  '<td><center>'.$unPerso->getId();
@@ -109,10 +111,10 @@ foreach ($persosList as $unPerso)
 		$resultGetList .= '</center></td><td><center><a href="?update='.$unPerso->getId().'"> Modifier </a>';
 	}
 	$resultGetList .= '</center></td><td><center><a href="partie.php?utiliser='.$unPerso->getId().'"> Utiliser </a>';
-	$resultGetList .= '</center></td></tr>'; 	
+	$resultGetList .= '</center></td></tr>';
 }
-$resultGetList .= '</table>'; 	
-    
+$resultGetList .= '</table>';
+
 //rechercher un personnage
 if (isset($_POST['bSearch'])) {
 	if(!empty($_POST['eId']) and isset($_POST['eId'])) {
@@ -131,13 +133,13 @@ if (isset($_POST['bSearch'])) {
 		  	$_SESSION['$result'] .= ' date derniere coup donné : '.datePassedAvecHeure($persoSearch->getDateLastCoup()).'<br/>';
 		  	$_SESSION['$result'] .= '<hr>';
 		  	header('location: index.php');
-		  	die(); 
+		  	die();
 		}
 		else {
 			$_SESSION['$erreurupload'] = '<div class="alert alert-success"><strong>Erreur !!!</strong> Votre personnage n a pas été trouver.</div><br/>';
 			header('location: index.php');
-		  	die(); 
-		} 
+		  	die();
+		}
 	}
 	else {
 		echo "error";
@@ -169,7 +171,7 @@ if (isset($_POST['bSearch'])) {
 			</form>
 			</center>
 		<?php
-		} 
+		}
 		else {
 		?>
 			<h1><center>Jeu de combat</center></h1><hr>
@@ -192,10 +194,10 @@ if (isset($_POST['bSearch'])) {
 			</form>
 			<br/>
 			<?php
-			if(isset($_SESSION['$erreurupload']) and !empty($_SESSION['$erreurupload'])) { 
-		        echo $_SESSION['$erreurupload']; 
+			if(isset($_SESSION['$erreurupload']) and !empty($_SESSION['$erreurupload'])) {
+		        echo $_SESSION['$erreurupload'];
 		        unset($_SESSION['$erreurupload']);
-		    } 
+		    }
 			if(isset($_SESSION['$result'])) {
 				echo $_SESSION['$result'];
 				unset($_SESSION['$result']);
